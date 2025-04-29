@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-white text-gray-800 antialiased;
+    font-family: 'Inter', sans-serif;
+}
+
+nav {
+    @apply w-full flex items-center justify-between px-6 py-3 shadow-md bg-white relative z-50;
+}
+
+nav .logo {
+    @apply flex items-center gap-2;
+}
+
+nav .search-bar {
+    @apply flex items-center bg-purple-100 rounded-full px-4 py-2 w-1/2 shadow-inner;
+}
+
+nav .search-bar svg {
+    @apply text-gray-600;
+}
+
+nav .icon-group {
+    @apply flex items-center gap-6;
+}
+
+nav .icon-group svg {
+    @apply text-2xl text-gray-700 cursor-pointer;
+}
+
+.notification-popup {
+    @apply absolute top-20 right-28 bg-white shadow-lg rounded-md p-4 w-72 z-10;
+}
+
+.notification-popup h3 {
+    @apply font-semibold mb-2;
+}
+
+.login-popup {
+    @apply absolute top-20 right-10 bg-white shadow-md rounded-md p-4 z-50;
+}
+
+/* responsive */
