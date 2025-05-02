@@ -4,19 +4,38 @@ function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [staySignedIn, setStaySignedIn] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert(`Login attempted with email: ${email}`);
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage(`✅ ${data.message}`);
+        // TODO: redirect to dashboard or set token
+      } else {
+        setMessage(`❌ ${data.message}`);
+      }
+    } catch (err) {
+      setMessage('⚠️ Gagal terhubung ke server.');
+    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white p-4">
       <div className="w-full max-w-md p-8">
         <div className='flex flex-col end mb-8'>
-            <button className='text-gray-500 hover:text-gray-800 bg-red-300'>
-              X
-            </button>
+          <button className='text-gray-500 hover:text-gray-800 bg-red-300'>
+            X
+          </button>
         </div>
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Sign In</h1>
@@ -24,7 +43,7 @@ function LoginPage() {
             Register
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
             <label htmlFor="email" className="align-left block text-gray-700 mb-2 font-medium">Email Address</label>
@@ -37,7 +56,7 @@ function LoginPage() {
               required
             />
           </div>
-          
+
           <div className="mb-6">
             <label htmlFor="password" className="block text-gray-700 mb-2 font-medium">Password</label>
             <input
@@ -49,7 +68,7 @@ function LoginPage() {
               required
             />
           </div>
-          
+
           <div className="flex justify-between items-center mb-8">
             <div className="flex items-center">
               <div className="relative flex items-center">
@@ -68,7 +87,7 @@ function LoginPage() {
             </div>
             <a href="#" className="text-gray-600 hover:text-gray-800">Forgot your password?</a>
           </div>
-          
+
           <button
             type="submit"
             className="w-full bg-black text-white py-3 rounded font-medium hover:bg-gray-900 transition-colors"
@@ -76,13 +95,15 @@ function LoginPage() {
             Sign in
           </button>
         </form>
-        
+
+        {message && <p className="mt-4 text-center text-sm text-gray-700">{message}</p>}
+
         <div className="flex items-center my-8">
           <div className="flex-1 border-t border-gray-300"></div>
           <span className="mx-4 text-gray-500 font-medium">OR</span>
           <div className="flex-1 border-t border-gray-300"></div>
         </div>
-        
+
         <div className="space-y-4">
           <button className="w-full border border-gray-300 rounded-full py-3 font-medium hover:bg-gray-50">
             Continue with Google
@@ -97,6 +118,6 @@ function LoginPage() {
       </div>
     </div>
   );
-};
+}
 
 export default LoginPage;
