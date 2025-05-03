@@ -1,14 +1,19 @@
 import { useState, FormEvent } from "react";
 import RegisterPage from "@/pages/register";
-// import Link from 'next/link';
-import { useRouter } from "next/router";
+
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [staySignedIn, setStaySignedIn] = useState(false);
   const [message, setMessage] = useState("");
-  const router = useRouter();
+
+  const [showRegister, setShowRegister] = useState(false);
+
+  const toggleRegister = () => {
+    setShowRegister(!showRegister);
+  };
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -48,11 +53,16 @@ function LoginPage() {
           <h1 className="text-2xl font-bold">Sign In</h1>
           <button
             type="button"
-            onClick={() => router.push("/register")}
+            onClick={toggleRegister}
             className="border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100"
           >
             Register
           </button>
+          {showRegister && (
+                <div className="login-popup">
+                    <RegisterPage />
+                </div>
+            )}
         </div>
 
         <form onSubmit={handleSubmit}>

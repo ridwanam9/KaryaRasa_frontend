@@ -1,5 +1,6 @@
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
+import LoginPage from "@/pages/login";
 
 function RegisterPage() {
   const [email, setEmail] = useState("");
@@ -7,6 +8,11 @@ function RegisterPage() {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const router = useRouter();
+  const [showLogin, setShowLogin] = useState(false);
+
+  const toggleLogin = () => {
+    setShowLogin(!showLogin);
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -41,11 +47,16 @@ function RegisterPage() {
           <h1 className="text-2xl font-bold">Create Your Account</h1>
           <button
             type="button"
-            onClick={() => router.push("/login")}
+            onClick={toggleLogin}
             className="border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100"
           >
             Login
           </button>
+          {showLogin && (
+                <div className="login-popup">
+                    <LoginPage />
+                </div>
+          )}
         </div>
 
         <p className="text-gray-600 mb-6">Registration is easy</p>
