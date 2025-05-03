@@ -1,20 +1,27 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent } from "react";
+import RegisterPage from "@/pages/register";
+// import Link from 'next/link';
+import { useRouter } from "next/router";
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [staySignedIn, setStaySignedIn] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/users/login`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
 
@@ -25,28 +32,37 @@ function LoginPage() {
         setMessage(`❌ ${data.message}`);
       }
     } catch (err) {
-      setMessage('⚠️ Gagal terhubung ke server.');
+      setMessage("⚠️ Gagal terhubung ke server.");
     }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white p-4">
       <div className="w-full max-w-md p-8">
-        <div className='flex flex-col end mb-8'>
-          <button className='text-gray-500 hover:text-gray-800 bg-red-300'>
+        <div className="flex flex-col end mb-8">
+          <button className="text-gray-500 hover:text-gray-800 bg-red-300">
             X
           </button>
         </div>
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Sign In</h1>
-          <button className="border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100">
+          <button
+            type="button"
+            onClick={() => router.push("/register")}
+            className="border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100"
+          >
             Register
           </button>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-6">
-            <label htmlFor="email" className="align-left block text-gray-700 mb-2 font-medium">Email Address</label>
+            <label
+              htmlFor="email"
+              className="align-left block text-gray-700 mb-2 font-medium"
+            >
+              Email Address
+            </label>
             <input
               type="email"
               id="email"
@@ -58,7 +74,12 @@ function LoginPage() {
           </div>
 
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700 mb-2 font-medium">Password</label>
+            <label
+              htmlFor="password"
+              className="block text-gray-700 mb-2 font-medium"
+            >
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -79,13 +100,23 @@ function LoginPage() {
                   onChange={(e) => setStaySignedIn(e.target.checked)}
                   className="w-5 h-5 opacity-0 absolute"
                 />
-                <div className={`w-5 h-5 border border-gray-500 rounded flex items-center justify-center ${staySignedIn ? 'bg-black' : 'bg-white'}`}>
-                  {staySignedIn && <span className="text-white text-xs">✓</span>}
+                <div
+                  className={`w-5 h-5 border border-gray-500 rounded flex items-center justify-center ${
+                    staySignedIn ? "bg-black" : "bg-white"
+                  }`}
+                >
+                  {staySignedIn && (
+                    <span className="text-white text-xs">✓</span>
+                  )}
                 </div>
-                <label htmlFor="staySignedIn" className="ml-2 text-gray-700">Stay signed in</label>
+                <label htmlFor="staySignedIn" className="ml-2 text-gray-700">
+                  Stay signed in
+                </label>
               </div>
             </div>
-            <a href="#" className="text-gray-600 hover:text-gray-800">Forgot your password?</a>
+            <a href="#" className="text-gray-600 hover:text-gray-800">
+              Forgot your password?
+            </a>
           </div>
 
           <button
@@ -96,7 +127,9 @@ function LoginPage() {
           </button>
         </form>
 
-        {message && <p className="mt-4 text-center text-sm text-gray-700">{message}</p>}
+        {message && (
+          <p className="mt-4 text-center text-sm text-gray-700">{message}</p>
+        )}
 
         <div className="flex items-center my-8">
           <div className="flex-1 border-t border-gray-300"></div>
