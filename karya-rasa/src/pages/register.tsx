@@ -2,7 +2,11 @@ import { useState, FormEvent } from "react";
 import { useRouter } from "next/router";
 import LoginPage from "@/pages/login";
 
-function RegisterPage() {
+type Props = {
+  onSwitch: () => void;
+};
+
+function RegisterPage({ onSwitch }: Props) {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -47,16 +51,12 @@ function RegisterPage() {
           <h1 className="text-2xl font-bold">Create Your Account</h1>
           <button
             type="button"
-            onClick={toggleLogin}
+            onClick={onSwitch}
             className="border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100"
           >
             Login
           </button>
-          {showLogin && (
-                <div className="login-popup">
-                    <LoginPage />
-                </div>
-          )}
+          
         </div>
 
         <p className="text-gray-600 mb-6">Registration is easy</p>

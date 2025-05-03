@@ -1,8 +1,12 @@
 import { useState, FormEvent } from "react";
 import RegisterPage from "@/pages/register";
 
+type Props = {
+  onSwitch: () => void;
+};
 
-function LoginPage() {
+
+function LoginPage({ onSwitch }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [staySignedIn, setStaySignedIn] = useState(false);
@@ -53,16 +57,12 @@ function LoginPage() {
           <h1 className="text-2xl font-bold">Sign In</h1>
           <button
             type="button"
-            onClick={toggleRegister}
+            onClick={onSwitch}
             className="border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100"
           >
             Register
           </button>
-          {showRegister && (
-                <div className="login-popup">
-                    <RegisterPage />
-                </div>
-            )}
+          
         </div>
 
         <form onSubmit={handleSubmit}>
