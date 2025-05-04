@@ -48,7 +48,7 @@ function LoginPage({ onSwitch }: Props) {
   return (
     <div className="flex justify-center items-center min-h-screen bg-white p-4">
       <div className="w-full max-w-md p-2">
-        <div className="flex flex-col end mb-8">
+        <div className="flex flex-col end mb-2">
         </div>
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Sign In</h1>
