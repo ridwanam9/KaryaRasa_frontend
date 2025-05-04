@@ -47,18 +47,15 @@ function LoginPage({ onSwitch }: Props) {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white p-4">
-      <div className="w-full max-w-md p-8">
+      <div className="w-full max-w-md p-2">
         <div className="flex flex-col end mb-8">
-          <button className="text-gray-500 hover:text-gray-800 bg-red-300">
-            X
-          </button>
         </div>
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Sign In</h1>
           <button
             type="button"
             onClick={onSwitch}
-            className="border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100"
+            className="border px-2 py-1 border-gray-600 rounded-full text-gray-800 hover:bg-gray-100"
           >
             Register
           </button>
@@ -124,7 +121,7 @@ function LoginPage({ onSwitch }: Props) {
                 </label>
               </div>
             </div>
-            <a href="#" className="text-gray-600 hover:text-gray-800">
+            <a href="#" className="ml-10 text-gray-600 hover:text-gray-800">
               Forgot your password?
             </a>
           </div>

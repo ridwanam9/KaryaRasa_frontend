@@ -185,7 +185,7 @@ const Navbar = () => {
           <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative max-h-screen overflow-y-auto">
             <button
               onClick={() => setShowLogin(false)}
-              className="absolute top-2 right-2 text-lg font-bold"
+              className="absolute top-2 right-2 text-lg font-medium hover:text-lg hover:font-bold"
             >
               ✕
             </button>

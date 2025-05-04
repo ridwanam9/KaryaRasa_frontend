@@ -46,13 +46,13 @@ function RegisterPage({ onSwitch }: Props) {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-white p-4">
-      <div className="w-full max-w-md p-8">
+      <div className="w-full max-w-md p-2">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">Create Your Account</h1>
           <button
             type="button"
             onClick={onSwitch}
-            className="border border-gray-300 rounded-full text-gray-800 hover:bg-gray-100"
+            className="border px-2 py-1 border-gray-600 rounded-full text-gray-800 hover:bg-gray-100"
           >
             Login
           </button>
