@@ -59,7 +59,6 @@ function LoginPage({ onSwitch }: Props) {
           >
             Register
           </button>
-          
         </div>
 
         <form onSubmit={handleSubmit}>
