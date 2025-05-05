@@ -182,7 +182,7 @@ const Navbar = () => {
       {/* Login Modal */}
       {showLogin && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-y-auto">
-          <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative max-h-screen overflow-y-auto">
+          <div className="bg-white p-6 top-10 bottom-5 rounded shadow-lg w-full max-w-md relative max-h-screen overflow-y-auto scrollbar-width-none ::-webkit-scrollbar-none">
             <button
               onClick={() => setShowLogin(false)}
               className="absolute top-2 right-2 text-lg font-medium hover:text-lg hover:font-bold"
@@ -201,11 +201,11 @@ const Navbar = () => {
 
       {/* Register Modal */}
       {showRegister && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-y-auto">
-          <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative max-h-screen overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center overflow-hidden">
+          <div className="bg-white p-6 top-10 rounded shadow-lg w-full max-w-md relative max-h-screen overflow-y-auto scrollbar-width-none">
             <button
               onClick={() => setShowRegister(false)}
-              className="absolute top-2 right-2 text-lg font-bold"
+              className="absolute top-2 right-2 text-lg font-medium hover:text-lg hover:font-bold"
             >
               ✕
             </button>

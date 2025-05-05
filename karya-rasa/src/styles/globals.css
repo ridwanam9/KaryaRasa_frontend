@@ -42,5 +42,4 @@ nav .icon-group svg {
 .login-popup {
     @apply absolute top-20 right-10 bg-white shadow-md rounded-md p-4 z-50;
 }
-
 /* responsive */
