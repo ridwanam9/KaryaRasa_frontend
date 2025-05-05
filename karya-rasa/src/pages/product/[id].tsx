@@ -1,8 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-import Navbar from "@/components/Navbar";
-
+import Navbar from '@/components/Navbar'
 
 interface Product {
   id: number
@@ -10,48 +9,85 @@ interface Product {
   description: string
   price: number
   image_url: string
-  category: string
-  stock: number
+  rating: number
 }
 
-const ProductDetail = () => {
+const ProductDetailPage = () => {
   const router = useRouter()
   const { id } = router.query
   const [product, setProduct] = useState<Product | null>(null)
 
   useEffect(() => {
     if (id) {
-      axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`)
-        .then(res => setProduct(res.data))
-        .catch(err => console.error(err))
+      axios.get(`https://dying-helli-ridwanam9-4b98d171.koyeb.app/products/${id}`)
+        .then((res) => setProduct(res.data))
+        .catch((err) => console.error(err))
     }
   }, [id])
 
-  if (!product) return <div className="text-center mt-10">Loading...</div>
+  if (!product) return <div className="text-center mt-10">Loading product...</div>
 
   return (
-    <div className="bg-gray-100 min-h-screen py-10 px-8">
-      <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-6 flex gap-6">
-        <img src={product.image_url} alt={product.name} className="w-1/2 rounded object-cover" />
-        
-        <div className="flex flex-col w-1/2 justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold">{product.name}</h2>
-            <div className="text-sm text-gray-500 mt-1">⭐ 4.9</div>
-            <div className="text-xl font-bold text-black mt-2">Rp. {product.price.toLocaleString()}</div>
-            
-            <h3 className="mt-4 text-green-600 font-bold">Detail</h3>
-            <p className="text-sm text-gray-700 mt-1">{product.description}</p>
+    <>
+      <Navbar />
+      <div className="bg-[#ffffff] min-h-screen text-black pt-40 px-6">
+
+        <div className="bg-white max-w-6xl mx-auto rounded-md shadow p-6">
+          <h1 className="text-lg text-gray-700 font-semibold mb-4">Product detail</h1>
+
+          <div className="flex flex-col md:flex-row gap-6">
+            {/* Left: Product Image */}
+            <div className="md:w-1/2">
+              <img
+                src={product.image_url}
+                alt={product.name}
+                className="rounded w-full object-cover"
+              />
+            </div>
+
+            {/* Right: Product Info */}
+            <div className="md:w-1/2 flex flex-col justify-between">
+              <div>
+                <h2 className="text-xl font-bold">{product.name}</h2>
+                {/* <div className="flex items-center gap-1 mt-1 text-sm text-gray-600">
+                  <span>⭐</span>
+                  <span>{product.rating.toFixed(1)}</span>
+                </div> */}
+                <div className="text-sm text-gray-500 mt-1">⭐ 4.9</div>
+
+
+                <p className="text-lg font-semibold text-black mt-2">
+                  Rp. {product.price.toLocaleString()}
+                </p>
+
+                <div className="mt-4">
+                  <h3 className="text-green-600 font-semibold">Detail</h3>
+                  <p className="text-sm text-gray-700 mt-1 leading-relaxed">
+                    {product.description}
+                  </p>
+                </div>
+              </div>
+
+              {/* Quantity and Notes Box */}
+              <div className="mt-6 border rounded-md p-4 shadow-sm">
+                <h4 className="font-medium">Set quantity and notes</h4>
+                <textarea
+                  placeholder="Add notes (optional)..."
+                  className="mt-2 w-full border rounded-md p-2 text-sm resize-none"
+                  rows={3}
+                ></textarea>
+              </div>
+            </div>
           </div>
 
-          <div className="border mt-6 p-4 rounded shadow-sm">
-            <h4 className="font-medium">Set quantity and notes</h4>
-            {/* Form qty & catatan */}
+          {/* Footer */}
+          <div className="text-center text-sm text-gray-600 mt-10 border-t pt-6">
+            © 2025 Karya Rasa. All Right Reserved.
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
-export default ProductDetail
+export default ProductDetailPage
