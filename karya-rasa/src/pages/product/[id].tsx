@@ -1,39 +1,47 @@
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-import Navbar from '@/components/Navbar'
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "@/components/Navbar";
 
 interface Product {
-  id: number
-  name: string
-  description: string
-  price: number
-  image_url: string
-  rating: number
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
+  rating: number;
+  stock: number;
 }
 
 const ProductDetailPage = () => {
-  const router = useRouter()
-  const { id } = router.query
-  const [product, setProduct] = useState<Product | null>(null)
+  const router = useRouter();
+  const { id } = router.query;
+  const [product, setProduct] = useState<Product | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const [note, setNote] = useState("");
 
   useEffect(() => {
     if (id) {
-      axios.get(`https://dying-helli-ridwanam9-4b98d171.koyeb.app/products/${id}`)
+      axios
+        .get(`https://dying-helli-ridwanam9-4b98d171.koyeb.app/products/${id}`)
         .then((res) => setProduct(res.data))
-        .catch((err) => console.error(err))
+        .catch((err) => console.error(err));
     }
-  }, [id])
+  }, [id]);
 
-  if (!product) return <div className="text-center mt-10">Loading product...</div>
+  if (!product)
+    return <div className="text-center mt-10">Loading product...</div>;
+
+  const subtotal = quantity * product.price;
 
   return (
     <>
       <Navbar />
       <div className="bg-[#ffffff] min-h-screen text-black pt-40 px-6">
-
         <div className="bg-white max-w-6xl mx-auto rounded-md shadow p-6">
-          <h1 className="text-lg text-gray-700 font-semibold mb-4">Product detail</h1>
+          <h1 className="text-lg text-gray-700 font-semibold mb-4">
+            Product detail
+          </h1>
 
           <div className="flex flex-col md:flex-row gap-6">
             {/* Left: Product Image */}
@@ -49,15 +57,10 @@ const ProductDetailPage = () => {
             <div className="md:w-1/2 flex flex-col justify-between">
               <div>
                 <h2 className="text-xl font-bold">{product.name}</h2>
-                {/* <div className="flex items-center gap-1 mt-1 text-sm text-gray-600">
-                  <span>⭐</span>
-                  <span>{product.rating.toFixed(1)}</span>
-                </div> */}
                 <div className="text-sm text-gray-500 mt-1">⭐ 4.9</div>
 
-
                 <p className="text-lg font-semibold text-black mt-2">
-                  Rp. {product.price.toLocaleString()}
+                  Rp. {product.price.toLocaleString("id-ID")}
                 </p>
 
                 <div className="mt-4">
@@ -68,14 +71,65 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* Quantity and Notes Box */}
+              {/* Quantity & Note Section */}
               <div className="mt-6 border rounded-md p-4 shadow-sm">
-                <h4 className="font-medium">Set quantity and notes</h4>
+                <h4 className="font-semibold text-base mb-4">
+                  Atur jumlah dan catatan
+                </h4>
+
+                {/* Quantity control & stock */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center border rounded px-2 py-1">
+                    <button
+                      onClick={() =>
+                        setQuantity((prev) => Math.max(1, prev - 1))
+                      }
+                      className="px-2 text-xl"
+                    >
+                      −
+                    </button>
+                    <span className="px-4 text-lg">{quantity}</span>
+                    <button
+                      onClick={() => setQuantity((prev) => prev + 1)}
+                      className="px-2 text-xl"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <span className="text-sm">
+                    Stok:{" "}
+                    <span className="font-bold">
+                      {product.stock.toLocaleString("id-ID")}
+                    </span>
+                  </span>
+                </div>
+
+                {/* Catatan */}
                 <textarea
-                  placeholder="Add notes (optional)..."
-                  className="mt-2 w-full border rounded-md p-2 text-sm resize-none"
+                  placeholder="Catatan tambahan (opsional)..."
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                  className="w-full border rounded-md p-2 text-sm resize-none mb-4"
                   rows={3}
-                ></textarea>
+                />
+
+                {/* Subtotal */}
+                <div className="mb-4">
+                  <span className="text-gray-500">Subtotal</span>
+                  <div className="text-lg font-bold">
+                    Rp{subtotal.toLocaleString("id-ID")}
+                  </div>
+                </div>
+
+                {/* Tombol aksi */}
+                <div className="flex flex-col gap-2">
+                  <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded">
+                    + Keranjang
+                  </button>
+                  <button className="border border-green-600 text-green-600 font-semibold py-2 rounded hover:bg-green-50">
+                    Beli Langsung
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -87,7 +141,7 @@ const ProductDetailPage = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ProductDetailPage
+export default ProductDetailPage;
