@@ -11,6 +11,14 @@ interface Product {
   image_url: string;
   rating: number;
   stock: number;
+  reviews?: {
+    id: number;
+    rating: number;
+    review: string;
+    user: {
+      name: string;
+    };
+  }[];
 }
 
 const ProductDetailPage = () => {
@@ -24,7 +32,7 @@ const ProductDetailPage = () => {
     if (id) {
       axios
         .get(`https://dying-helli-ridwanam9-4b98d171.koyeb.app/products/${id}`)
-        .then((res) => setProduct(res.data))
+        .then((res) => setProduct(res.data.data))
         .catch((err) => console.error(err));
     }
   }, [id]);
@@ -129,6 +137,61 @@ const ProductDetailPage = () => {
                   <button className="border border-green-600 text-green-600 font-semibold py-2 rounded hover:bg-green-50">
                     Beli Langsung
                   </button>
+                </div>
+
+                {/* Buyer Reviews */}
+                <div className="mt-10">
+                  <h3 className="text-lg font-bold mb-2">Buyer reviews</h3>
+
+                  {/* Rating Summary */}
+                  <div className="flex items-center gap-2 text-yellow-600 text-xl font-semibold">
+                    ⭐ {product.rating?.toFixed(1) ?? "0"}/5,0
+                    <span className="text-sm text-gray-600 font-normal">
+                      {product.reviews?.length ?? 0} ratings •{" "}
+                      {product.reviews?.length ?? 0} reviews
+                    </span>
+                  </div>
+
+                  {/* Rating Breakdown (dummy) */}
+                  <div className="mt-4 space-y-1 text-sm text-gray-600">
+                    {[5, 4, 3, 2, 1].map((star) => (
+                      <div key={star} className="flex items-center gap-2">
+                        <span className="w-6">{star}★</span>
+                        <div className="bg-gray-200 rounded w-full h-2 relative">
+                          <div
+                            className="bg-yellow-400 h-2 rounded absolute"
+                            style={{ width: `${Math.random() * 100}%` }} // Ganti dengan logic asli nanti
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Comments */}
+                <div className="mt-10">
+                  <h4 className="text-base font-bold mb-4">Comment</h4>
+
+                  {product.reviews?.map((review) => (
+                    <div key={review.id} className="mb-4 border-b pb-4">
+                      <div className="flex items-center gap-2 text-yellow-500">
+                        {"★".repeat(review.rating)}
+                        {"☆".repeat(5 - review.rating)}
+                      </div>
+                      <div className="text-sm font-semibold mt-1">
+                        {review.user.name}
+                      </div>
+                      <p className="text-sm text-gray-700 mt-1">
+                        {review.review}
+                      </p>
+                    </div>
+                  ))}
+
+                  {product.reviews?.length === 0 && (
+                    <p className="text-sm text-gray-500 italic">
+                      Belum ada komentar.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
