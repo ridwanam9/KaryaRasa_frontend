@@ -35,6 +35,7 @@ function LoginPage({ onSwitch }: Props) {
       const data = await res.json();
 
       if (res.ok) {
+        localStorage.setItem("token", data.token);
         setMessage(`✅ ${data.message}`);
         // TODO: redirect to dashboard or set token
       } else {
