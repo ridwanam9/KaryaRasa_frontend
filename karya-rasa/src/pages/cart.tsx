@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "@/components/Navbar";
-import { FaShoppingCart, FaTrash } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 
 interface Product {
   id: number;
@@ -15,20 +15,20 @@ interface Product {
   
 
 const ShoppingCartPage = () => {
-  const [cartItems] = useState([
+  const [Product] = useState([
     {
       id: 1,
       sellerName: "Seller name's",
-      productName: "Product's Name",
-      productType: "Type,etc.",
+      name: "Product's Name",
+      type: "Type,etc.",
       price: "Price",
       quantity: 1
     },
     {
       id: 2,
       sellerName: "Seller name's",
-      productName: "Product's Name",
-      productType: "Type,etc.",
+      name: "Product's Name",
+      type: "Type,etc.",
       price: "Price",
       quantity: 1
     }
@@ -44,10 +44,10 @@ const ShoppingCartPage = () => {
     <Navbar />
 
 {/* Cart Container - Without extra space */}
-  <div className="max-w-7xl mx-auto w-full pt-40">
+  <div className="max-w-7xl mx-auto w-full pt-5">
         {/* Cart Items */}
         <div className="border border-black-200 bg-gray-200 rounded-lg overflow-hidden shadow-lg mt-6 mb-4 max-w-6xl mx-auto">
-          {cartItems.map((item, index) => (
+          {Product.map((item, index) => (
             <React.Fragment key={item.id}>
               {/* Seller's name top */}
               <div className="flex px-4 py-2 border-b border-gray-200">
@@ -70,8 +70,8 @@ const ShoppingCartPage = () => {
                 
                 {/* Product Info */}
                 <div className="flex-grow">
-                  <div className="font-medium">{item.productName}</div>
-                  <div className="text-sm text-gray-500 mb-4">{item.productType}</div>
+                  <div className="font-medium">{item.name}</div>
+                  <div className="text-sm text-gray-500 mb-4">{item.type}</div>
                   
                   {/* Quantity Dropdown */}
                   <div className="inline-block relative">
