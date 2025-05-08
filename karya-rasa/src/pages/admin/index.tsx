@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "../../pages/layouts/AdminLayout";                                                                                    
-import Users from "../../components/Users";
-import Sellers from "../../components/Sellers";
-import Products from "../../components/Products";
+import Users from "../../pages/admin/users";
+import Sellers from "../../pages/admin/sellers";
+import Products from "../../pages/admin/products";
 
 export default function AdminDashboard() {
   const [currentTab, setCurrentTab] = useState<"users" | "sellers" | "products">("users");
