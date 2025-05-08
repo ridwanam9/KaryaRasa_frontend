@@ -1,5 +1,8 @@
 import { useState, FormEvent } from "react";
 import RegisterPage from "@/pages/register";
+import { useRouter } from "next/router"; // pastikan ini di-import
+
+
 
 type Props = {
   onSwitch: () => void;
@@ -7,6 +10,9 @@ type Props = {
 
 
 function LoginPage({ onSwitch }: Props) {
+  // di dalam komponen LoginPage
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [staySignedIn, setStaySignedIn] = useState(false);
@@ -36,8 +42,24 @@ function LoginPage({ onSwitch }: Props) {
 
       if (res.ok) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.data.name);
+
         setMessage(`✅ ${data.message}`);
         // TODO: redirect to dashboard or set token
+        // const userRole = data.user?.role;
+
+        // ✅ Tampilkan alert
+        alert(`Selamat datang, ${data.data.name}!`);
+
+
+        if (data.role === "seller") {
+          router.push("/seller/products");
+        } else if (data.role === "admin") {
+          router.push("/admin/dashboard");
+        } else {
+          router.push("/"); // default redirect untuk user biasa
+        }
+
       } else {
         setMessage(`❌ ${data.message}`);
       }
