@@ -4,7 +4,7 @@ import React, { ReactNode, useRef } from "react";
 type Props = {
   children: ReactNode;
   currentTab: string;
-  setCurrentTab: (tab: string) => void;
+  setCurrentTab: (tab: "users" | "sellers" | "products") => void;
   username: string;
 };
 

@@ -4,7 +4,16 @@ import Users from "../../pages/admin/users";
 import Sellers from "../../pages/admin/sellers";
 import Products from "../../pages/admin/products";
 
+type User = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+};
+
+
 export default function AdminDashboard() {
+  
   const [currentTab, setCurrentTab] = useState<"users" | "sellers" | "products">("users");
   const loggedInUsername = "AdminUser";
 
@@ -24,8 +33,12 @@ export default function AdminDashboard() {
       .then((json) => {
         if (json && Array.isArray(json.data)) {
           const allUsers = json.data;
-          setUsers(allUsers.filter((u) => u.role.toLowerCase() === "user"));
-          setSellers(allUsers.filter((u) => u.role.toLowerCase() === "seller"));
+
+          // setUsers(allUsers.filter((u) => u.role.toLowerCase() === "user"));
+          // setSellers(allUsers.filter((u) => u.role.toLowerCase() === "seller"));
+          setUsers(allUsers.filter((u: any) => u.role.toLowerCase() === "user"));
+          setSellers(allUsers.filter((u: any) => u.role.toLowerCase() === "seller"));
+
         } else {
           setUsers([]);
           setSellers([]);
@@ -57,8 +70,12 @@ export default function AdminDashboard() {
       <div className="flex-grow border border-gray-200 rounded p-4 overflow-auto">
         {loading && <p className="text-gray-600 text-sm">Loading data...</p>}
         {error && <p className="text-red-600 text-sm">{error}</p>}
-        {!loading && !error && currentTab === "users" && <Users users={users} />}
-        {!loading && !error && currentTab === "sellers" && <Sellers sellers={sellers} />}
+        {/* {!loading && !error && currentTab === "users" && <Users users={users} />} */}
+        {!loading && !error && currentTab === "users" && <Users />}
+
+        {/* {!loading && !error && currentTab === "sellers" && <Sellers sellers={sellers} />} */}
+        {!loading && !error && currentTab === "sellers" && <Sellers />}
+
         {!loading && !error && currentTab === "products" && <Products />}
       </div>
     </AdminLayout>
