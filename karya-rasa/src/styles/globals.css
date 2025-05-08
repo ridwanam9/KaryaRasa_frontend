@@ -43,3 +43,36 @@ nav .icon-group svg {
     @apply absolute top-20 right-10 bg-white shadow-md rounded-md p-4 z-50;
 }
 /* responsive */
+
+@media print {
+    body {
+      -webkit-print-color-adjust: exact; /* agar warna tetap */
+    }
+  
+    #printable-area {
+      overflow: visible !important;
+      height: auto !important;
+    }
+  
+    /* Hilangkan elemen yang tidak perlu saat print */
+    header, footer, aside, nav, .no-print {
+      display: none !important;
+    }
+  
+    /* Gunakan ukuran penuh saat print */
+    main {
+      width: 100%;
+      padding: 0;
+      margin: 0;
+    }
+  
+    table {
+      page-break-inside: auto;
+    }
+  
+    tr {
+      page-break-inside: avoid;
+      page-break-after: auto;
+    }
+  }
+  
