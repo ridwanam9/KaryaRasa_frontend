@@ -36,7 +36,7 @@ const Navbar = () => {
     return (
         <nav>
             <div className="logo">
-                <Image src="/KR.png" alt="Karya Rasa Logo" width={100} height={100} />
+                <img src="/KR.png" alt="Karya Rasa Logo" width={100} height={100} />
             </div>
 
             <div className="search-bar">
