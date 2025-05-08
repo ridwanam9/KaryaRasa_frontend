@@ -1,0 +1,63 @@
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.search-barr {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background-color: #f3edf7;
+    padding: 0.75rem 1rem;
+    border-radius: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.search-barr input {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.search-barr button {
+    background-color: #8899DD;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    color: white;
+    cursor: pointer;
+}
+
+.address-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    background-color: #fff;
+}
+
+.address-card p {
+    margin: 0.25rem 0;
+    line-height: 1.4;
+}
+
+.address-actions {
+    margin-top: 0.75rem;
+}
+
+.address-actions a {
+    margin-right: 1rem;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.address-actions .edit {
+    color:#8899DD;
+}
+
+.address-actions .delete {
+    color:#8899DD;
+}

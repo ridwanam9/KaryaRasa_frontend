@@ -1,0 +1,93 @@
+.containerr {
+    padding: 0.3rem 0;
+}
+
+.containerr h2 {
+
+}
+
+.headerr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.addBtn {
+    background: #8899DD;
+    padding: 0.4rem 1rem;
+    border: none;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+    color: #fff;
+    cursor: pointer;
+}
+
+.addBtn:hover {
+    background: #9fa8f7;
+}
+
+.formContainer {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 500px;
+    margin-top: #fff;
+    background-color: #fff;
+}
+
+.formContainer h3 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+.formContainer input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 9999px;
+    font-size: 0.9rem;
+}
+
+.formContainer button {
+    background: linear-gradient(to right, #a6b1ff, #8a9bff);
+    color: white;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.formContainer button:hover {
+    background: linear-gradient(to right, #8a9bff, #6e7dff);
+}
+
+.accountList {
+    margin-top: 2rem;
+}
+
+.accountCard {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    max-width: 400px;
+}
+
+.accountCard p {
+    margin: 0.25rem 0;
+    line-height: 1.4;
+}
+
+.deleteBtn {
+    background: none;
+    color: #8899DD;
+    border: none;
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.deleteBtn:hover {
+    text-decoration: underline;
+}
