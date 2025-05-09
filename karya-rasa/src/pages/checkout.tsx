@@ -48,13 +48,13 @@ const CheckoutPage = () => {
   ];
 
 
-  /* Calculate total price of all items in the cart */
-  const totalPrice = checkoutItems.reduce((item) => {
-    const itemPrice = Object.values(item.price)[0]; // Get the first value of the price object
-    return
-    item.price * item.quantity;
-  }, 
-);
+    /* Calculate total price of all items in the cart */
+  //   const totalPrice = checkoutItems.reduce((item) => {
+  //     const itemPrice = Object.values(item.price)[0]; // Get the first value of the price object
+  //     return
+  //     item.price * item.quantity;
+  //   }, 
+  // );
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -94,10 +94,10 @@ const CheckoutPage = () => {
                   </div>
                   {/* Price and Remove Icon */}
                   <div className="flex flex-col items-end">
-                    <div className="text-right font-medium mb-6">{item.total}</div>
+                    {/* <div className="text-right font-medium mb-6">{item.total}</div>
                     <button className="text-gray-400 hover:text-gray-600">
                       <FaTrash style={{ fontSize: 20 }} />
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 {/* Divider */}
@@ -190,7 +190,7 @@ const CheckoutPage = () => {
               {checkoutItems.map(item => (
                 <div className="flex justify-between items-center border-b py-2" key={item.id}>
                   <span>{item.sellerName}</span>
-                  <span>{item.productName} ({item.productType})</span>
+                  {/* <span>{item.productName} ({item.productType})</span> */}
                   <span>{item.quantity}</span>
                   <span>{item.price}</span>
 
