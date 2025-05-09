@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "@/components/Navbar";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/pages/contexts/CartContext";
 
 interface Product {
   id: number;

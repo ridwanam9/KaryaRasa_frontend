@@ -80,6 +80,7 @@ const ShoppingCartPage = () => {
 
   const clearVoucherCode = () => {
         setVoucherCode('');
+        setVoucherError(null); // Clear any previous error
     };
 
   if (loading) return <div className="text-center mt-10">Loading...</div>;
@@ -183,7 +184,7 @@ const ShoppingCartPage = () => {
                 onClick={() =>{alert('Proceeding to Checkout Page');
                 router.push("/checkout")}}
               >
-                Buy
+                Checkout
               </button>
             </div>
           </div>
