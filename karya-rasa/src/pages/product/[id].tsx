@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "@/components/Navbar";
+import { useCart } from "@/context/CartContext";
 
 interface Product {
   id: number;
@@ -28,6 +29,8 @@ const ProductDetailPage = () => {
   const [quantity, setQuantity] = useState(1);
   const [note, setNote] = useState("");
 
+  const { addItem } = useCart();
+
   useEffect(() => {
     if (id) {
       axios
@@ -36,6 +39,12 @@ const ProductDetailPage = () => {
         .catch((err) => console.error(err));
     }
   }, [id]);
+
+  const handleAddToCart = () => {
+    if (product) {
+      addItem({ id: product.id, quantity, note, });
+    }
+  };
 
   if (!product)
     return <div className="text-center mt-10">Loading product...</div>;
@@ -52,7 +61,6 @@ const ProductDetailPage = () => {
           </h1>
 
           <div className="flex flex-col md:flex-row gap-6">
-            {/* Left: Product Image */}
             <div className="md:w-1/2">
               <img
                 src={product.image_url}
@@ -61,7 +69,6 @@ const ProductDetailPage = () => {
               />
             </div>
 
-            {/* Right: Product Info */}
             <div className="md:w-1/2 flex flex-col justify-between">
               <div>
                 <h2 className="text-xl font-bold">{product.name}</h2>
@@ -79,7 +86,6 @@ const ProductDetailPage = () => {
                 </div>
               </div>
 
-              {/* Quantity & Note Section */}
               <div className="mt-6 border rounded-md p-4 shadow-sm">
                 <h4 className="font-semibold text-base mb-4">
                   Atur jumlah dan catatan
@@ -131,7 +137,10 @@ const ProductDetailPage = () => {
 
                 {/* Tombol aksi */}
                 <div className="flex flex-col gap-2">
-                  <button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded">
+                  <button 
+                  className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded"
+                  onClick={handleAddToCart}
+                  >
                     + Keranjang
                   </button>
                   <button className="border border-green-600 text-green-600 font-semibold py-2 rounded hover:bg-green-50">

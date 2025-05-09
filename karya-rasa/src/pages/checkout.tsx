@@ -1,60 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import Navbar from "@/components/Navbar";
 import { Dropdown, DropdownDivider, DropdownItem } from 'flowbite-react';
 import { FaTrash } from "react-icons/fa";
 
-type Product = {
+interface Product {
   id: number;
-  sellerName: string;
   name: string;
+  sellerName: string;
   type: string;
-  price: string;
+  price: number;
+  image_url: string;
   quantity: number;
-};
+}
 
 const CheckoutPage = () => {
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
-  const [product, setProduct] = useState<Product | null>(null);
-  const [quantity, setQuantity] = useState(1);
   const [voucherCode, setVoucherCode] = useState('');
-
   const router = useRouter();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  
+  const productIds = [1, 2, 3]; // Example product IDs
+  
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const responses = await Promise.all(
+          productIds.map(id => 
+            axios.get(`https://dying-helli-ridwanam9-4b98d171.koyeb.app/products/${id}`)
+          )
+        );
+        const fetchedProducts = responses.map(res => ({
+          id: res.data.data.id,
+          name: res.data.data.name,
+          sellerName: res.data.data.sellerName || 'Unknown Seller', // Default value if missing
+          type: res.data.data.type || 'Unknown Type', // Default value if missing
+          price: res.data.data.price,
+          image_url: res.data.data.image_url,
+          quantity: res.data.data.quantity,
+        }));
+        setProducts(fetchedProducts);
+      } catch (error) {
+        console.error("Error fetching products", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleAddAddress = () => {
+    fetchProducts();
+  }, [productIds]);
+
+    const handleAddAddress = () => {
     router.push('/address-list');
   };
-  
-  // Sample state for checkout items
-  const checkoutItems = [
-    {
-      id: 1,
-      sellerName: "Seller 1",
-      name: "Product 1",
-      type: "Type A",
-      price: "Rp. 100.000",
-      quantity: 1,
-    },
-    {
-      id: 2,
-      sellerName: "Seller 2",
-      name: "Product 2",
-      type: "Type B",
-      price: "Rp.200.000",
-      quantity: 3,
-    }
-  ];
-
-
-  /* Calculate total price of all items in the cart */
-  const totalPrice = checkoutItems.reduce((item) => {
-    const itemPrice = Object.values(item.price)[0]; // Get the first value of the price object
-    return
-    item.price * item.quantity;
-  }, 
-);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -65,7 +67,7 @@ const CheckoutPage = () => {
       {/* Cart Items */}
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="border border-black-200 bg-gray-200 rounded-lg overflow-auto shadow-lg mt-6 mb-4 col-span-2">
-            {checkoutItems.map(item => (
+            {products.map(item => (
               <React.Fragment key={item.id}>
                 {/* Seller's name top */}
                 <div className="flex px-4 py-2 border-b border-gray-200">
@@ -94,7 +96,7 @@ const CheckoutPage = () => {
                   </div>
                   {/* Price and Remove Icon */}
                   <div className="flex flex-col items-end">
-                    <div className="text-right font-medium mb-6">{item.total}</div>
+                    <div className="text-right font-medium mb-6">{`Rp. ${item.price * item.quantity}`}</div>
                     <button className="text-gray-400 hover:text-gray-600">
                       <FaTrash style={{ fontSize: 20 }} />
                     </button>
@@ -107,7 +109,7 @@ const CheckoutPage = () => {
 
         {/*Delivery Address Section */}
         <div className='col-span-1'>
-          <div className="border rounded-xl border-black bg-gray-200 p-4 rounded">
+          <div className="border rounded-xl border-black bg-gray-200 p-4">
             <h2 className="text-lg font-bold mb-0">Delivery Address</h2>
               <div className='flex flex-nowrap justify-between items-center content-center my-5'>
                 <svg className="h-4 w-4 color-white translate(-100%,0%)" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -153,7 +155,7 @@ const CheckoutPage = () => {
           </div>
 
           {/* Payment Method Section */}
-          <div className="border rounded-xl border-black bg-gray-200 py-4 rounded">
+          <div className="border rounded-xl border-black bg-gray-200 py-4">
             <h2 className="text-lg font-bold mb-5 px-4">Payment Method</h2>
             <div className="inline-block relative mb-5 px-4">
             <Dropdown label="Select" inline={false} dismissOnClick={true} floatingArrow={true} arrowIcon={false} className='block pointer-events-auto bg-white border align-center border-gray-300 px-5 py-1 pr-8 rounded text-sm ml-5 my-2'>
@@ -187,10 +189,10 @@ const CheckoutPage = () => {
             {/* Shopping Summary Section */}
             <div className="border p-4 rounded">
               <h2 className="text-lg font-bold mb-4">Shopping Summary</h2>
-              {checkoutItems.map(item => (
+              {products.map(item => (
                 <div className="flex justify-between items-center border-b py-2" key={item.id}>
                   <span>{item.sellerName}</span>
-                  <span>{item.productName} ({item.productType})</span>
+                  <span>{item.name} ({item.type})</span>
                   <span>{item.quantity}</span>
                   <span>{item.price}</span>
 
@@ -198,7 +200,7 @@ const CheckoutPage = () => {
               ))}
               <div className="flex justify-between items-center font-bold mt-4">
                 <span>Shopping Total</span>
-                <span>Rp. xxx.xxx</span>
+                <span>{`Rp. ${products.reduce((total, item) => total + item.price * item.quantity, 0)}`}</span>
               </div>
               <button className="bg-blue-600 text-white rounded px-8 py-2 mt-4">Buy</button>
             </div>
