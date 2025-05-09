@@ -97,7 +97,7 @@ const CreateSeller = () => {
       }
 
       alert("Akun penjual berhasil dibuat!");
-      router.push("/products");
+      router.push("/seller/products");
     } catch (err) {
       console.error("Kesalahan saat submit:", err);
       alert("Kesalahan jaringan saat mengirim informasi penjual.");
