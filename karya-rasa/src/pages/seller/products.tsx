@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { products as initialProducts } from "@/data/products";
 import { FaTrash } from "react-icons/fa";
@@ -14,9 +14,37 @@ export default function SellerProducts() {
   const [activeTab, setActiveTab] = useState("catalog");
   const router = useRouter();
 
+  // Ambil data dari localStorage saat mount
+  useEffect(() => {
+    const local = localStorage.getItem("seller_products");
+    if (local) {
+      // Gabungkan produk dari localStorage dan initialProducts tanpa duplikasi id
+      const localProducts = JSON.parse(local);
+      const merged = [
+        ...localProducts,
+        ...initialProducts.filter(
+          (p) => !localProducts.some((lp: any) => lp.id === p.id)
+        ),
+      ];
+      setProducts(merged);
+    } else {
+      setProducts(initialProducts);
+    }
+  }, []);
+
+  // Hapus produk dari state & localStorage
   const handleDelete = (id: string) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
-      setProducts(products.filter((p) => p.id !== id));
+      const updated = products.filter((p) => p.id !== id);
+      setProducts(updated);
+
+      // Update localStorage juga
+      const local = localStorage.getItem("seller_products");
+      if (local) {
+        const localProducts = JSON.parse(local);
+        const updatedLocal = localProducts.filter((p: any) => p.id !== id);
+        localStorage.setItem("seller_products", JSON.stringify(updatedLocal));
+      }
     }
   };
 
