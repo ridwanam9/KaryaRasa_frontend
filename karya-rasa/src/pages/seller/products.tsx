@@ -15,6 +15,41 @@ export default function SellerProducts() {
   const [activeTab, setActiveTab] = useState("catalog");
   const router = useRouter();
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Anda harus login terlebih dahulu.");
+      router.push("/login");
+      return;
+    }
+
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("https://dying-helli-ridwanam9-4b98d171.koyeb.app/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("Unauthorized");
+        }
+
+        const data = await res.json();
+        if (data.role !== "seller") {
+          alert("Anda tidak diizinkan mengakses halaman ini.");
+          router.push("/");
+          return;
+        }
+      } catch (error) {
+        console.error("Gagal mengambil data pengguna:", error);
+        router.push("/login");
+      }
+    };
+
+    fetchUser();
+  }, [router]);
+
   // Ambil data dari localStorage saat mount
   useEffect(() => {
     const local = localStorage.getItem("seller_products");

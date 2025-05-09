@@ -23,25 +23,20 @@ const CreateSeller = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await fetch(
-          "https://dying-helli-ridwanam9-4b98d171.koyeb.app/users/me",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await fetch("https://dying-helli-ridwanam9-4b98d171.koyeb.app/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         if (!res.ok) {
           throw new Error("Unauthorized");
         }
 
         const data = await res.json();
-
-        // Cek apakah user punya role yang diizinkan (bukan admin)
-        if (data.role !== "user") {
+        if (data.role !== "seller") {  // Ganti sesuai role yang diizinkan
           alert("Anda tidak diizinkan mengakses halaman ini.");
-          router.push("/"); // Redirect ke homepage atau halaman lain
+          router.push("/");
           return;
         }
 
