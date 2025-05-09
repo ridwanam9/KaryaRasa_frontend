@@ -9,7 +9,9 @@ type Props = {
 };
 
 export default function AdminLayout({ children, currentTab, setCurrentTab, username }: Props) {
-  const usernameInitial = username.charAt(0).toUpperCase();
+  // const usernameInitial = username.charAt(0).toUpperCase();
+  const usernameInitial = (username || "").charAt(0).toUpperCase();
+
 
   const printRef = useRef<HTMLDivElement>(null);
 
