@@ -64,3 +64,8 @@
 // };
 
 // export const useAuth = () => useContext(AuthContext);
+const AuthContext = () => {
+
+    
+}
+export default AuthContext;

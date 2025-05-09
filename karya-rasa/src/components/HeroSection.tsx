@@ -17,7 +17,7 @@ const HeroSection = () => {
     };
     return (
         <div className="hero-section">
-            <Image src="/banner.png" alt="Hero Image" width={1400}  height={400} className="hero-image" />
+            <img src="/banner.png" alt="Hero Image" width={1400}  height={400} className="hero-image" />
             <div className="hero-content">
                 <h1>CREATE YOUR OWN CREATIVITY!</h1>
                 <button className="hero-button" onClick={handleJoinNow}>

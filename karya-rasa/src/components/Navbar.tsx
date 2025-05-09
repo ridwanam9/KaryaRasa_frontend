@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import LoginPage from "@/pages/login";
 import RegisterPage from "@/pages/register";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
     FaHeart,
     FaBell,
@@ -15,12 +16,22 @@ import {
     FaSearch
 } from "react-icons/fa";
 
+interface UserData {
+    name: string;
+    // Sesuaikan dengan struktur data user dari API
+}
+
+
 const Navbar = () => {
     const [showNotification, setShowNotification] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
     const [showCategories, setshowCategories] = useState(false);
+    const [user, setUser] = useState<UserData | null>(null);
+    
+    const [showUserDropdown, setShowUserDropdown] = useState(false);
 
+    
     const toggleNotification = () => {
         setShowNotification(!showNotification);
     };
@@ -33,10 +44,58 @@ const Navbar = () => {
         setshowCategories(!showCategories);
     };
 
+    const toggleUserDropdown = () => {
+        setShowUserDropdown(!showUserDropdown);
+    };
+
+    // Fetch user jika token tersedia
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            fetch("https://dying-helli-ridwanam9-4b98d171.koyeb.app/users/me", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+                .then((res) => {
+                    if (!res.ok) throw new Error("Unauthorized");
+                    return res.json();
+                })
+                .then((data) => {
+                    setUser(data);
+                })
+                .catch((err) => {
+                    console.error("Failed to fetch user:", err);
+                    setUser(null);
+                });
+        }
+    }, []);
+
+    const handleLogout = async () => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+    
+        try {
+            await fetch("https://dying-helli-ridwanam9-4b98d171.koyeb.app/users/logout", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+        } catch (error) {
+            console.error("Logout failed:", error);
+        } finally {
+            localStorage.removeItem("token");
+            setUser(null);
+            setShowUserDropdown(false);
+        }
+    };
+
+
     return (
         <nav>
             <div className="logo">
-                <Image src="/KR.png" alt="Karya Rasa Logo" width={100} height={100} />
+                <img src="/KR.png" alt="Karya Rasa Logo" width={100} height={100} />
             </div>
 
             <div className="search-bar">
@@ -72,9 +131,42 @@ const Navbar = () => {
                     <FaQuestionCircle />
                 </a>
 
-                <button onClick={toggleLogin}>
-                    <FaUser />
-                </button>
+                {user ? (
+                    <div className="relative">
+                    <button
+                        className="text-sm font-semibold"
+                        onClick={toggleUserDropdown}
+                    >
+                        Selamat datang, {user.name}
+                    </button>
+                    {showUserDropdown && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md py-2 z-50">
+                            <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                Purchase and Review
+                            </button>
+                            <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                Messages
+                            </button>
+                            <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                Create Your Shop
+                            </button>
+                            <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                                Account Setting
+                            </button>
+                            <button
+                                onClick={handleLogout}
+                                className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
+                            >
+                                Logout
+                            </button>
+                        </div>
+                    )}
+                </div>
+                ) : (
+                    <button onClick={toggleLogin}>
+                        <FaUser />
+                    </button>
+                )}
             </div>
 
             {showNotification &&(
