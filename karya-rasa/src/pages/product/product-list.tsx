@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
+import { useRouter } from 'next/router';
 import { products as allProducts } from '../../data/products';
 import ProductCard from '../../components/ProductCard';
 import FilterBar from '../../components/FilterBar';
@@ -8,8 +9,17 @@ import SortDropdown from '../../components/SortDropdown';
 import Navbar from '@/components/Navbar';
 
 export default function Home() {
+    const router = useRouter();
+    const { category: categoryQuery } = router.query;
+
     const [category, setCategory] = useState('');
     const [sort, setSort] = useState('relevance');
+
+    useEffect(() => {
+        if (typeof categoryQuery === 'string') {
+            setCategory(categoryQuery);
+        }
+    }, [categoryQuery]);
 
     let filtered = allProducts.filter(p => !category || p.category === category);
 
