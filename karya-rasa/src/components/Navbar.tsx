@@ -124,7 +124,7 @@ const Navbar = () => {
                 </Link>
 
                 <a
-                href="https://www.instagram.com/rrewsgi_18/"
+                href="https://wa.me/6289505024216?text=Halo%20Admin%2C%20ada%20sedikit%20pertanyaan%20yang%20perlu%20disampaikan."
                 target="_blank"
                 rel="noopener noreferrer"
                 >
@@ -207,12 +207,12 @@ const Navbar = () => {
                     <div className="modal-content w-64" onClick={(e) => e.stopPropagation()}>
                         <h3 className="text-lg font-semibold mb-4">Category</h3>
                         <ul className="space-y-2">
-                            <li><Link href="/category/accessories">Accessories</Link></li>
-                            <li><Link href="/category/art&collectibles">Art & Collectibles</Link></li>
-                            <li><Link href="/category/clothing">Clothing</Link></li>
-                            <li><Link href="/category/jewelry">Jewelry</Link></li>
-                            <li><Link href="/category/craft-suplies&tools">Craft Supplies & Tools</Link></li>
-                            <li><Link href="/category/toys&games">Toys & Games</Link></li>
+                            <li><Link href={{ pathname: "/product/product-list", query: { category: "Accessories"} }}>Accessories</Link></li>
+                            <li><Link href={{ pathname: "/product/product-list", query: { category: "Art&Collectibles"} }}>Art & Collectibles</Link></li>
+                            <li><Link href={{ pathname: "/product/product-list", query: { category: "Clothing"} }}>Clothing</Link></li>
+                            <li><Link href={{ pathname: "/product/product-list", query: { category: "Jewelery"} }}>Jewelry</Link></li>
+                            <li><Link href={{ pathname: "/product/product-list", query: { category: "Craft-Suplies&Tools"} }}>Craft Supplies & Tools</Link></li>
+                            <li><Link href={{ pathname: "/product/product-list", query: { category: "Toys&Games"} }}>Toys & Games</Link></li>
                         </ul>
                     </div>
                 </div>
