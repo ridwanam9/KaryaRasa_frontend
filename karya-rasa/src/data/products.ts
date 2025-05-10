@@ -1,10 +1,10 @@
 export const products = [
     {
         id: '1',
-        name: 'Earring',
-        price: 35000,
-        category: 'Accessories',
-        image: '/accessories.png',
+        name: 'Handmade Leather Wallet',
+        price: 150000,
+        category: 'Art&Colectibles',
+        image: '/card_holder.png',
         rating: 4.9,
     },
     {
@@ -98,9 +98,9 @@ export const products = [
     },
 
     {
-        id: '12',
-        name: 'Art',
-        price: 35000,
+        id: '2',
+        name: 'Abstract Painting',
+        price: 300000,
         category: 'Art&Colectibles',
         image: '/art6.jpg',
         rating: 4.9,
@@ -126,10 +126,10 @@ export const products = [
 
     {
         id: '15',
-        name: 'Card Holder',
+        name: 'Earring',
         price: 35000,
-        category: 'Art&Colectibles',
-        image: '/card_holder.png',
+        category: 'Accessories',
+        image: '/accessories.png',
         rating: 4.9,
     },
 
