@@ -1,15 +1,15 @@
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 
 const categories = [
-  "Accessories",
-  "Art & Collectibles",
-  "Clothing",
-  "Jewelry",
-  "Craft Supplies & Tools",
-  "Toys & Games",
+  { id: 1, name: "Accessories" },
+  { id: 2, name: "Art & Collectibles" },
+  { id: 3, name: "Clothing" },
+  { id: 4, name: "Jewelry" },
+  { id: 5, name: "Craft Supplies & Tools" },
+  { id: 6, name: "Toys & Games" },
 ];
 
 export default function AddProduct() {
@@ -17,7 +17,7 @@ export default function AddProduct() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState<number | string>(""); // Use category ID instead of name
   const [image, setImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const router = useRouter();
@@ -32,33 +32,85 @@ export default function AddProduct() {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!name || !description || !price || !stock || !category || !image) {
+    if (!name || !description || !price || !stock || !category || !imageFile) {
       alert("Please fill all fields and upload an image.");
       return;
     }
 
-    // Simpan produk ke localStorage
-    const newProduct = {
-      id: Date.now().toString(),
-      name,
-      description,
-      price: Number(price),
-      stock: Number(stock),
-      category,
-      image,
-      rating: 4.9,
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("price", price);
+    formData.append("stock", stock);
+    formData.append("category_id", String(category)); // Send category ID
+    formData.append("image", imageFile);
+
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("You must be logged in.");
+        router.push("/login");
+        return;
+      }
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Product added successfully!");
+        router.push("/seller/products");
+      } else {
+        alert("Failed to add product: " + data.message); // Adjusted error handling
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      alert("An error occurred while uploading the product.");
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must log in first.");
+      router.push("/login");
+      return;
+    }
+
+    const fetchUser = async () => {
+      try {
+        const res = await fetch("https://dying-helli-ridwanam9-4b98d171.koyeb.app/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("Unauthorized");
+        }
+
+        const data = await res.json();
+        if (data.role !== "seller") {
+          alert("You are not authorized to access this page.");
+          router.push("/");
+          return;
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+        router.push("/login");
+      }
     };
 
-    const existing = localStorage.getItem("seller_products");
-    const products = existing ? JSON.parse(existing) : [];
-    products.push(newProduct);
-    localStorage.setItem("seller_products", JSON.stringify(products));
-
-    // Redirect ke catalog
-    router.push("/seller/products");
-  };
+    fetchUser();
+  }, [router]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -103,7 +155,7 @@ export default function AddProduct() {
               </div>
             </div>
             <div>
-              <label className="block mb-2">Stok</label>
+              <label className="block mb-2">Stock</label>
               <input
                 type="number"
                 className="border rounded px-3 py-1 w-24"
@@ -146,10 +198,10 @@ export default function AddProduct() {
               onChange={(e) => setCategory(e.target.value)}
               required
             >
-              <option value="">Pilih kategori</option>
+              <option value="">Select a category</option>
               {categories.map((cat) => (
-                <option key={cat} value={cat}>
-                  {cat}
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
                 </option>
               ))}
             </select>

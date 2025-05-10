@@ -1,3 +1,5 @@
+// Ini adalah halaman agar user bisa switch role to seller
+
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Navbar from "@/components/Navbar"; // Asumsi path yang benar
@@ -34,7 +36,7 @@ const CreateSeller = () => {
         }
 
         const data = await res.json();
-        if (data.role !== "seller") {  // Ganti sesuai role yang diizinkan
+        if (data.role !== "user") {  // Ganti sesuai role yang diizinkan
           alert("Anda tidak diizinkan mengakses halaman ini.");
           router.push("/");
           return;
