@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -137,7 +138,11 @@ const ShoppingCartPage = () => {
                 <div className="text-sm font-semibold">Sub total : Rp.xxx.xxx</div>
               </div>
               <button className="bg-blue-400 text-white rounded-full px-8 py-2 mt-2">
-                Buy
+              <Link
+                  href="/checkout"
+                >
+                  Buy
+                </Link>
               </button>
             </div>
           </div>
